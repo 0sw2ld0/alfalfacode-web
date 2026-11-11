@@ -125,19 +125,20 @@
         <p>Si el turno comprobó un flujo compatible en WebKit, la tarjeta de cierre puede ofrecer <strong>Guardar prueba de Playwright</strong>. Tú eliges si guardarla en <code>tests/e2e/</code> y cuándo ejecutarla en tu entorno de prueba.</p>
 
         <h2 id="terminal">Chromium en la terminal</h2>
-        <p>Con <a href="https://github.com/0sw2ld0/cuybrowser/releases/tag/v0.6.0">CuyBrowser 0.6.0, versión de prueba</a>, AlfalfaCode puede usar un navegador Chromium desde la terminal o desde <strong>Ajustes ▸ Navegador</strong> en la app. Chromium usa un perfil separado por proyecto y muestra sus confirmaciones sensibles en un diálogo del sistema.</p>
-        <p>Instala <a href="https://github.com/0sw2ld0/cuybrowser/blob/v0.6.0/README.md#instalarlo-en-tu-path">CuyBrowser en tu <code>PATH</code></a> y ten un navegador compatible, como Chrome, Edge, Brave o Chromium. Ejecuta AlfalfaCode desde la carpeta del proyecto.</p>
+        <p>CuyBrowser permite usar Chromium desde la terminal o desde <strong>Ajustes ▸ Navegador</strong> en la app. Usa un perfil separado por proyecto y muestra las confirmaciones sensibles en un diálogo del sistema.</p>
+        <p>Si tu instalación de AlfalfaCode incluye CuyBrowser, el motor usa ese ayudante por defecto. Con un clon o una instalación anterior, <a href="https://github.com/0sw2ld0/cuybrowser/blob/v0.6.0/README.md#instalarlo-en-tu-path">instala CuyBrowser en tu <code>PATH</code></a>. Puedes usar <a href="https://github.com/0sw2ld0/cuybrowser/releases/tag/v0.6.0">CuyBrowser 0.6.0, versión de prueba</a>.</p>
+        <p>Si tienes Chrome, Edge, Brave o Chromium, CuyBrowser puede usarlo. Cuando la app trae CuyBrowser y falta un navegador compatible, la app te ofrece descargar Chromium con tu confirmación. Para usarlo en la terminal, ejecuta AlfalfaCode desde la carpeta del proyecto.</p>
         <div class="instalar">
           <div class="pestanas" role="tablist" aria-label="Órdenes de terminal">
             <button id="tab-alfalfa" role="tab" type="button" aria-controls="panel-alfalfa" aria-selected="true">Usar con AlfalfaCode</button>
-            <button id="tab-cuybrowser" role="tab" type="button" aria-controls="panel-cuybrowser" aria-selected="false" tabindex="-1">Verificar la instalación</button>
+            <button id="tab-cuybrowser" role="tab" type="button" aria-controls="panel-cuybrowser" aria-selected="false" tabindex="-1">Comprobar el incluido</button>
           </div>
           <div id="panel-alfalfa" class="panel-instalar" role="tabpanel" aria-labelledby="tab-alfalfa">
 <pre><span class="orden">alfalfa --motor-navegador cuybrowser "Revisa mi página"</span></pre>
             <button class="copiar" type="button" aria-label="Copiar"><svg class="icono-copiar" aria-hidden="true"><use href="#i-copiar"/></svg><svg class="hecho" aria-hidden="true"><use href="#i-hecho"/></svg></button>
           </div>
           <div id="panel-cuybrowser" class="panel-instalar" role="tabpanel" aria-labelledby="tab-cuybrowser" hidden>
-<pre><span class="orden">cuybrowser --version</span></pre>
+<pre><span class="orden">alfalfa --cuybrowser-estado</span></pre>
             <button class="copiar" type="button" aria-label="Copiar"><svg class="icono-copiar" aria-hidden="true"><use href="#i-copiar"/></svg><svg class="hecho" aria-hidden="true"><use href="#i-hecho"/></svg></button>
           </div>
         </div>
