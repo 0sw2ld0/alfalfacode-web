@@ -7,7 +7,7 @@
 <meta name="description" content="AlfalfaCode es un agente de programación de código abierto (MIT) que trabaja en tu Mac con el modelo que elijas: Ollama, OpenAI o cualquier proveedor compatible. Pide permiso antes de lo que importa.">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/sitio.css?v=3">
+<link rel="stylesheet" href="/assets/sitio.css?v=4">
 <meta property="og:title" content="AlfalfaCode">
 <meta property="og:description" content="El agente de programación de código abierto para tu Mac, con el modelo que elijas.">
 <meta property="og:image" content="https://alfalfacode.cuycoders.dev/assets/alfalfacode-256.png">
@@ -26,6 +26,7 @@
   <symbol id="i-flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
   <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="m7 10 3 2.5L7 15M12.5 15H17"/></symbol>
   <symbol id="i-ventana" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M3 9h18M9 9v10.5"/></symbol>
+  <symbol id="i-globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
   <symbol id="i-enchufe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4M15 3v4M6.5 7h11v3.5a5.5 5.5 0 0 1-11 0ZM12 16v5"/></symbol>
   <symbol id="i-capas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12.5 9 5 9-5M3 16.5l9 5 9-5"/></symbol>
   <symbol id="i-escudo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.5c0 4.5 3 7.8 7 9.5 4-1.7 7-5 7-9.5V6l-7-3Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
@@ -45,9 +46,10 @@
     <a class="marca" href="/"><img src="/assets/alfalfacode.svg" alt="" width="30" height="30">AlfalfaCode</a>
     <nav class="nav" aria-label="Principal">
       <a href="#funciones">Funciones</a>
+      <a class="nav-navegador" href="/navegador/">Navegador</a>
       <a href="/cloud/">Alfalfa Cloud</a>
       <a href="https://github.com/0sw2ld0/AlfalfaCode#readme">Documentación</a>
-      <a class="nav-gh" href="https://github.com/0sw2ld0/AlfalfaCode"><svg aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+      <a class="nav-gh" href="https://github.com/0sw2ld0/AlfalfaCode" aria-label="GitHub"><svg aria-hidden="true"><use href="#i-github"/></svg><span>GitHub</span></a>
     </nav>
   </div>
 </header>
@@ -181,9 +183,20 @@
         <div class="funcion"><svg aria-hidden="true"><use href="#i-ramas"/></svg><h3>Subagentes</h3><p>El agente reparte el trabajo entre subagentes que avanzan a la vez y le entregan su informe al terminar.</p></div>
         <div class="funcion"><svg aria-hidden="true"><use href="#i-comprimir"/></svg><h3>Contexto que no se acaba</h3><p>Cuando la conversación llega al límite del modelo, la compacta en un resumen y sigue trabajando. Adaptado de la compactación de Codex.</p></div>
         <div class="funcion"><svg aria-hidden="true"><use href="#i-lupa"/></svg><h3>Busca en la web desde tu conexión</h3><p>Puede buscar y leer páginas con CuySearch, desde tu propia conexión y sin pasar por ningún servidor central.</p></div>
+        <div class="funcion"><svg aria-hidden="true"><use href="#i-globo"/></svg><h3>Un navegador que ves</h3><p>El agente prueba tu web en un panel junto a la conversación. Los permisos de sitio se controlan por proyecto y las acciones delicadas tienen su propia aprobación.</p></div>
         <div class="funcion"><svg aria-hidden="true"><use href="#i-pieza"/></svg><h3>MCP, hooks y habilidades</h3><p>Servidores MCP, complementos, hooks, <code>AGENTS.md</code> y habilidades, compatibles con los de Claude Code.</p></div>
         <div class="funcion"><svg aria-hidden="true"><use href="#i-reloj"/></svg><h3>Trabajos largos</h3><p>Procesos en segundo plano que siguen entre turnos, el Mac despierto mientras el agente trabaja y sesiones que retomas cuando quieras.</p></div>
       </div>
+    </div>
+  </section>
+
+  <section class="seccion" aria-labelledby="navegador-t">
+    <div class="envoltura navegador-portada">
+      <div>
+        <h2 id="navegador-t" class="titulo">Un navegador para probar lo que construye</h2>
+        <p class="bajada">La app trae un navegador WebKit junto a la conversación. El agente abre tu web, lee lo que aparece y prueba el flujo mientras tú ves cada paso. WebKit es el motor de Safari que ya trae tu Mac.</p>
+      </div>
+      <a class="boton boton-segundo" href="/navegador/">Cómo funciona el navegador <span aria-hidden="true">→</span></a>
     </div>
   </section>
 

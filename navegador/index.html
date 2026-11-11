@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Navegador de AlfalfaCode · Prueba tu web desde el agente</title>
+<meta name="description" content="Prueba tu web en AlfalfaCode con WebKit y CuyBrowser. Mira los pasos del agente, decide sus permisos y guarda pruebas de Playwright.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/sitio.css?v=4">
+<meta name="theme-color" content="#1c1c1a">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-github" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+  <symbol id="i-bajar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></symbol>
+  <symbol id="i-copiar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></symbol>
+  <symbol id="i-hecho" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
+</svg>
+
+<a class="salto" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="envoltura">
+    <a class="marca" href="/"><img src="/assets/alfalfacode.svg" alt="" width="30" height="30">AlfalfaCode</a>
+    <nav class="nav" aria-label="Principal">
+      <a href="/#funciones">Funciones</a>
+      <a class="nav-navegador" href="/navegador/" aria-current="page">Navegador</a>
+      <a href="/cloud/">Alfalfa Cloud</a>
+      <a href="https://github.com/0sw2ld0/AlfalfaCode#readme">Documentación</a>
+      <a class="nav-gh" href="https://github.com/0sw2ld0/AlfalfaCode" aria-label="GitHub"><svg aria-hidden="true"><use href="#i-github"/></svg><span>GitHub</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+  <section class="portada portada-navegador" aria-labelledby="navegador-t">
+    <div class="envoltura">
+      <h1 id="navegador-t">El agente navega. <em>Tú decides qué toca.</em></h1>
+      <p class="entrada">Prueba el diseño, los botones y los formularios de tu web en el navegador de la app. El agente abre páginas de internet o tu servidor local en un perfil propio, con los permisos que tú elijas.</p>
+      <div class="acciones">
+        <a class="boton boton-principal" href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode.dmg"><svg aria-hidden="true"><use href="#i-bajar"/></svg>Descargar para Mac</a>
+        <a class="boton boton-segundo" href="https://github.com/0sw2ld0/AlfalfaCode"><svg aria-hidden="true"><use href="#i-github"/></svg>Ver el código</a>
+      </div>
+      <p class="nota">Apple Silicon y macOS 14 o posterior. <a href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest">Ver las notas de la versión disponible</a>.</p>
+
+      <figure class="escena escena-navegador">
+        <div class="ventana ventana-navegador" aria-hidden="true">
+          <div class="ventana-barra"><i></i><i></i><i></i><span>AlfalfaCode</span></div>
+          <div class="lateral">
+            <h4>mi-web</h4>
+            <div class="sesion activa">Probar el formulario</div>
+            <div class="sesion">Revisar el diseño móvil</div>
+          </div>
+          <div class="chat">
+            <div class="mensajes">
+              <div class="burbuja">Prueba el formulario de inscripción con datos ficticios.</div>
+              <p class="respuesta">Ya rellené el formulario. Voy a comprobar el mensaje que aparece al enviarlo.</p>
+              <div class="permiso">
+                <p><strong>AlfalfaCode quiere enviar el formulario.</strong></p>
+                <p class="permiso-concedido"><svg><use href="#i-hecho"/></svg> Permitido una vez</p>
+              </div>
+            </div>
+            <div class="redactor"><div class="caja">Pide otro cambio…</div></div>
+          </div>
+          <div class="panel-navegador">
+            <div class="direccion-navegador"><svg><use href="#i-globo"/></svg><span>http://127.0.0.1:3000/inscripcion</span></div>
+            <p class="accion-navegador">El agente: Pulsando «Enviar»</p>
+            <div class="pagina-navegador">
+              <div class="formulario-navegador">
+                <p class="titulo-formulario">Taller de diseño web</p>
+                <p class="campo-formulario">Nombre <span>Ana Ejemplo</span></p>
+                <p class="campo-formulario">Correo <span>ana@example.test</span></p>
+                <p class="objetivo-navegador"><span>Enviar</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="pie-ilustracion">Ilustración con datos ficticios. Tras la aprobación, el navegador marca el botón que pulsa el agente.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="lectura">
+    <div class="envoltura">
+      <nav class="indice" aria-label="En esta página">
+        <strong>En esta página</strong>
+        <a href="#capacidades">Qué puede hacer</a>
+        <a href="#permisos">Cómo pide permiso</a>
+        <a href="#pruebas">Comparar y guardar pruebas</a>
+        <a href="#terminal">Chromium en la terminal</a>
+      </nav>
+      <article class="texto navegador-detalles">
+        <h2 id="capacidades">Qué puede hacer el navegador</h2>
+        <ul>
+          <li><strong>Mostrar cada paso.</strong> Una franja indica qué hace el agente y un recuadro marca dónde pulsa. Puede esperar un mensaje de confirmación, pulsar teclas y probar menús al pasar el puntero. Con <strong>Comentar</strong> puedes señalar un elemento o un área y adjuntarla a tu mensaje.</li>
+          <li><strong>Probar varios tamaños.</strong> Cambia el ancho y el alto en WebKit para revisar el diseño en tamaño móvil, tableta o escritorio. Para WebKit basta el motor de Safari incluido en macOS.</li>
+          <li><strong>Separar los perfiles.</strong> La sesión empieza aislada por defecto. Si eliges <strong>Guardado por proyecto</strong>, puedes conservar el acceso que inicies tú en ese panel. El perfil vive aparte de Safari y de los demás proyectos.</li>
+          <li><strong>Aplicar tus reglas de sitios.</strong> En <strong>Ajustes ▸ Navegador</strong> puedes permitir o bloquear orígenes por proyecto. En WebKit, el modo estricto opcional también limita los recursos de otros orígenes.</li>
+          <li><strong>Proteger el acceso local.</strong> Abrir tu servidor local requiere un permiso independiente del permiso de sitio. WebKit también bloquea peticiones de páginas públicas a direcciones locales reconocidas en la URL de imágenes, marcos y otros recursos.</li>
+          <li><strong>Leer y depurar.</strong> El agente puede consultar JavaScript de solo lectura en WebKit, ver los mensajes de consola y revisar las peticiones de red observadas. Las lecturas sucesivas pueden devolver solo los cambios de un documento, con un presupuesto de contexto.</li>
+          <li><strong>Conservar evidencia.</strong> El cierre puede mostrar el antes y el después de una edición web. En <strong>Qué hizo el agente</strong> puedes revisar acciones y permisos, y exportar un informe HTML con las capturas asociadas que elijas.</li>
+          <li><strong>Pasarte el control.</strong> Si hace falta iniciar sesión, introducir un código de verificación o resolver un captcha, el agente se detiene. Haz tu parte en el panel y pulsa <strong>Continuar</strong>.</li>
+        </ul>
+
+        <h2 id="permisos">Cómo pide permiso</h2>
+        <p>Estas son las decisiones del navegador WebKit de la app. El modo de permisos y las reglas del proyecto determinan cuándo aparece la pregunta.</p>
+        <table class="tabla">
+          <thead><tr><th scope="col">El agente quiere…</th><th scope="col">Qué pasa</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Abrir un origen nuevo</th><td>Puedes aprobar la visita, la sesión o guardar el permiso para el proyecto. Los sitios bloqueados tienen prioridad.</td></tr>
+            <tr><th scope="row">Leer, desplazarse o tomar una captura en un sitio permitido</th><td>Usa el permiso vigente del sitio.</td></tr>
+            <tr><th scope="row">Acceder al Mac o a la red local</th><td>Se pide un permiso aparte por origen y sesión.</td></tr>
+            <tr><th scope="row">Enviar un formulario, escribir una contraseña, subir o descargar archivos, o cambiar la página con JavaScript</th><td>Con las preguntas de permisos activas, te pide aprobación para la acción.</td></tr>
+            <tr><th scope="row">Trabajar en Plan</th><td>Puede navegar y observar. Las acciones de escritura están deshabilitadas.</td></tr>
+          </tbody>
+        </table>
+        <p>AlfalfaCode conserva su identidad al navegar. Si un sitio pide un captcha, el relevo deja la resolución en tus manos.</p>
+
+        <h2 id="pruebas">Comparar y guardar pruebas</h2>
+        <h3>WebKit y Chromium en la misma página</h3>
+        <p>Desde la app, pide la misma URL y tamaño en los dos motores. AlfalfaCode reúne las capturas, las diferencias de lectura y los errores de consola. Requiere un CuyBrowser compatible y los permisos de cada motor.</p>
+        <h3>Un archivo de Playwright para el repositorio</h3>
+        <p>Si el turno comprobó un flujo compatible en WebKit, la tarjeta de cierre puede ofrecer <strong>Guardar prueba de Playwright</strong>. Tú eliges si guardarla en <code>tests/e2e/</code> y cuándo ejecutarla en tu entorno de prueba.</p>
+
+        <h2 id="terminal">Chromium en la terminal</h2>
+        <p>Con <a href="https://github.com/0sw2ld0/cuybrowser/releases/tag/v0.6.0">CuyBrowser 0.6.0, versión de prueba</a>, AlfalfaCode puede usar un navegador Chromium desde la terminal o desde <strong>Ajustes ▸ Navegador</strong> en la app. Chromium usa un perfil separado por proyecto y muestra sus confirmaciones sensibles en un diálogo del sistema.</p>
+        <p>Instala <a href="https://github.com/0sw2ld0/cuybrowser/blob/v0.6.0/README.md#instalarlo-en-tu-path">CuyBrowser en tu <code>PATH</code></a> y ten un navegador compatible, como Chrome, Edge, Brave o Chromium. Ejecuta AlfalfaCode desde la carpeta del proyecto.</p>
+        <div class="instalar">
+          <div class="pestanas" role="tablist" aria-label="Órdenes de terminal">
+            <button id="tab-alfalfa" role="tab" type="button" aria-controls="panel-alfalfa" aria-selected="true">Usar con AlfalfaCode</button>
+            <button id="tab-cuybrowser" role="tab" type="button" aria-controls="panel-cuybrowser" aria-selected="false" tabindex="-1">Verificar la instalación</button>
+          </div>
+          <div id="panel-alfalfa" class="panel-instalar" role="tabpanel" aria-labelledby="tab-alfalfa">
+<pre><span class="orden">alfalfa --motor-navegador cuybrowser "Revisa mi página"</span></pre>
+            <button class="copiar" type="button" aria-label="Copiar"><svg class="icono-copiar" aria-hidden="true"><use href="#i-copiar"/></svg><svg class="hecho" aria-hidden="true"><use href="#i-hecho"/></svg></button>
+          </div>
+          <div id="panel-cuybrowser" class="panel-instalar" role="tabpanel" aria-labelledby="tab-cuybrowser" hidden>
+<pre><span class="orden">cuybrowser --version</span></pre>
+            <button class="copiar" type="button" aria-label="Copiar"><svg class="icono-copiar" aria-hidden="true"><use href="#i-copiar"/></svg><svg class="hecho" aria-hidden="true"><use href="#i-hecho"/></svg></button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</main>
+
+<footer class="pie-sitio">
+  <div class="envoltura">
+    <span>© 2026 CuyCoders · AlfalfaCode es software libre con licencia MIT</span>
+    <nav aria-label="Pie">
+      <a href="/">AlfalfaCode</a>
+      <a href="/cloud/">Alfalfa Cloud</a>
+      <a href="/privacidad/">Privacidad</a>
+      <a href="https://github.com/0sw2ld0/AlfalfaCode">GitHub</a>
+      <a href="mailto:soporte@cuycoders.dev">soporte@cuycoders.dev</a>
+    </nav>
+  </div>
+</footer>
+<script src="/assets/sitio.js?v=3"></script>
+</body>
+</html>
