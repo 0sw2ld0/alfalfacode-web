@@ -75,13 +75,15 @@
           <button class="copiar" type="button" aria-label="Copiar"><svg class="icono-copiar" aria-hidden="true"><use href="#i-copiar"/></svg><svg class="hecho" aria-hidden="true"><use href="#i-hecho"/></svg></button>
         </div>
         <div class="panel-instalar" id="p-brew" role="tabpanel" aria-labelledby="t-brew" hidden>
-<pre><span class="indicador">$ </span><span class="orden">brew install --cask 0sw2ld0/tap/alfalfacode</span>
+<pre><span class="comentario"># Mac con Apple Silicon; en Intel, usa Terminal o App de Mac</span>
+<span class="indicador">$ </span><span class="orden">brew install --cask 0sw2ld0/tap/alfalfacode</span>
 <span class="indicador">$ </span><span class="orden">brew install 0sw2ld0/tap/alfalfa</span></pre>
           <button class="copiar" type="button" aria-label="Copiar"><svg class="icono-copiar" aria-hidden="true"><use href="#i-copiar"/></svg><svg class="hecho" aria-hidden="true"><use href="#i-hecho"/></svg></button>
         </div>
         <div class="panel-instalar" id="p-mac" role="tabpanel" aria-labelledby="t-mac" hidden>
 <pre><span class="comentario"># El DMG firmado y notarizado; se actualiza sola</span>
-<a href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode.dmg">Descargar AlfalfaCode.dmg</a> <span class="comentario">(última versión)</span></pre>
+<a href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode.dmg">Descargar AlfalfaCode.dmg</a> <span class="comentario">(Apple Silicon: M1 o posterior)</span>
+<a href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode-intel.dmg">Descargar AlfalfaCode-intel.dmg</a> <span class="comentario">(Mac con Intel)</span></pre>
         </div>
         <div class="panel-instalar" id="p-codigo" role="tabpanel" aria-labelledby="t-codigo" hidden>
 <pre><span class="indicador">$ </span><span class="orden">git clone https://github.com/0sw2ld0/AlfalfaCode</span>
@@ -93,10 +95,10 @@
       </div>
 
       <div class="acciones">
-        <a class="boton boton-principal" href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode.dmg"><svg aria-hidden="true"><use href="#i-bajar"/></svg>Descargar para Mac</a>
+        <a class="boton boton-principal" href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode.dmg" data-descarga-mac data-intel="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode-intel.dmg"><svg aria-hidden="true"><use href="#i-bajar"/></svg>Descargar para Mac</a>
         <a class="boton boton-segundo" href="https://github.com/0sw2ld0/AlfalfaCode"><svg aria-hidden="true"><use href="#i-github"/></svg>Ver el código en GitHub</a>
       </div>
-      <p class="nota">Para Mac con Apple Silicon y macOS 14 o posterior. Código abierto con licencia MIT. La primera vez, sin claves, te ofrece los modelos gratis y conecta OpenRouter con un clic. <a href="https://github.com/0sw2ld0/AlfalfaCode#instalar">Cómo actualizarlo o desinstalarlo</a>.</p>
+      <p class="nota">Para macOS 14 o posterior. ¿Tu Mac tiene procesador Intel? <a href="https://github.com/0sw2ld0/AlfalfaCode/releases/latest/download/AlfalfaCode-intel.dmg">Descarga la versión para Intel</a>. Código abierto con licencia MIT. La primera vez, sin claves, te ofrece los modelos gratis y conecta OpenRouter con un clic. <a href="https://github.com/0sw2ld0/AlfalfaCode#instalar">Cómo actualizarlo o desinstalarlo</a>.</p>
       </div>
       </div>
 
@@ -237,6 +239,6 @@
     </nav>
   </div>
 </footer>
-<script src="/assets/sitio.js?v=3"></script>
+<script src="/assets/sitio.js?v=4"></script>
 </body>
 </html>

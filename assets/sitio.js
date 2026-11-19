@@ -1,5 +1,17 @@
-// Cabecera con borde al bajar, pestañas de instalación, copiar y la demo del permiso.
+// Cabecera con borde al bajar, pestañas de instalación, copiar, la demo del permiso y el DMG de Intel.
 (function () {
+  // Chrome y Edge dicen el procesador; Safari no (siempre dice «Intel»). A un Mac con Intel, el botón
+  // le da su DMG. Si no se sabe, se queda el de Apple Silicon y la nota ofrece el de Intel.
+  var descarga = document.querySelector('[data-descarga-mac]');
+  if (descarga && navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+    navigator.userAgentData.getHighEntropyValues(['architecture', 'platform']).then(function (datos) {
+      if (datos.platform === 'macOS' && datos.architecture === 'x86') {
+        descarga.href = descarga.getAttribute('data-intel');
+        descarga.lastChild.textContent = 'Descargar para Mac con Intel';
+      }
+    }).catch(function () {});
+  }
+
   var cabecera = document.querySelector('.cabecera');
   if (cabecera) {
     var marcar = function () { cabecera.classList.toggle('con-borde', window.scrollY > 8); };

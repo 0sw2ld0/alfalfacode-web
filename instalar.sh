@@ -4,13 +4,15 @@
 #   curl -fsSL https://alfalfacode.cuycoders.dev/instalar.sh | sh
 #
 # Qué hace:
-#   1. Lee version.json de la última release de github.com/0sw2ld0/AlfalfaCode.
+#   1. Lee version.json de la última release de github.com/0sw2ld0/AlfalfaCode (en un Mac
+#      con Intel, version-intel.json, que apunta al DMG de Intel).
 #   2. Baja el DMG de esa release y comprueba su huella SHA-256 con la de version.json.
 #   3. Lo monta (sólo lectura) y comprueba la app de dentro: firma Developer ID intacta
 #      (codesign --verify --deep --strict), del equipo FZ8TW9AWLE, notarizada (spctl),
-#      con el identificador com.cuycoders.alfalfacode y la misma versión.
+#      con el identificador com.cuycoders.alfalfacode, la misma versión y el procesador de este Mac.
 #   4. Copia de la app el motor (un Python propio con alfalfa y sus dependencias) y sus
-#      ayudantes a ~/.local/share/alfalfa, y deja ~/.local/bin/alfalfa. Si algo falla,
+#      ayudantes, incluido CuyBrowser si viene en el DMG, a ~/.local/share/alfalfa y
+#      deja ~/.local/bin/alfalfa. Si algo falla,
 #      la copia que hubiera no se toca.
 #   5. Si ~/.local/bin no está en el PATH, lo añade a ~/.zshrc (o ~/.bash_profile) entre
 #      dos marcas (ALFALFA_SIN_PATH=1 para no tocarlos).
@@ -43,7 +45,7 @@ main() {
   LANZADOR="$BIN/alfalfa"
   MARCA_LANZADOR="# AlfalfaCode: lo dejó instalar.sh"
   MARCA_PATH="# AlfalfaCode (instalar.sh)"
-  FEED="${ALFALFA_FEED:-https://github.com/$REPO/releases/latest/download/version.json}"
+  FEED="${ALFALFA_FEED:-}"
 
   case "${1:-}" in
     --desinstalar) desinstalar; return 0 ;;
@@ -53,6 +55,7 @@ main() {
   esac
 
   comprobar_mac
+  [ -n "$FEED" ] || FEED="https://github.com/$REPO/releases/latest/download/$NOMBRE_FEED"
   if [ -e "$LANZADOR" ] && ! grep -q "$MARCA_LANZADOR" "$LANZADOR" 2>/dev/null; then
     falla "ya hay otro $LANZADOR que no instaló este guion; quítalo o usa ALFALFA_PREFIJO=otra/carpeta."
   fi
@@ -63,6 +66,7 @@ main() {
 
   TMP="$(mktemp -d "${TMPDIR:-/tmp}/alfalfa-instalar.XXXXXX")"
   VOLUMEN=""
+  DISCO=""
   NUEVA=""
   # EXIT limpia siempre; una señal (Ctrl-C, cerrar la terminal) limpia y para con su código.
   trap limpiar EXIT
@@ -76,7 +80,13 @@ main() {
     file://*) PRUEBA=1; aviso "modo de prueba: feed local $FEED" ;;
     *) falla "ALFALFA_FEED tiene que ser https:// o file://" ;;
   esac
-  bajar "$FEED" "$TMP/version.json"
+  if [ "$ARQ_MAC" = x86_64 ] && [ -z "$PRUEBA" ]; then
+    # Las releases anteriores a la app de Intel no traen version-intel.json.
+    curl -fsSL --proto '=https' --tlsv1.2 --retry 2 -o "$TMP/version.json" "$FEED" 2>/dev/null \
+      || falla "la última release de AlfalfaCode todavía no trae la versión para Mac con Intel."
+  else
+    bajar "$FEED" "$TMP/version.json"
+  fi
   VERSION="$(campo version)"
   URL="$(campo url)"
   HUELLA="$(campo sha256 | tr 'A-F' 'a-f')"
@@ -105,8 +115,10 @@ main() {
   # --- 3. Montar y comprobar la app -----------------------------------------------------------
   VOLUMEN="$TMP/volumen"
   mkdir "$VOLUMEN"
-  hdiutil attach -nobrowse -readonly -noautoopen -quiet -mountpoint "$VOLUMEN" "$TMP/AlfalfaCode.dmg" \
-    || { VOLUMEN=""; falla "no se pudo montar el DMG"; }
+  # El disco (/dev/diskN) se guarda para desconectarlo entero aunque el punto de montaje ya no exista.
+  DISCO="$(hdiutil attach -nobrowse -readonly -noautoopen -plist -mountpoint "$VOLUMEN" "$TMP/AlfalfaCode.dmg" \
+    | grep -o '/dev/disk[0-9]*' | head -n 1)" || true
+  [ -n "$DISCO" ] || { VOLUMEN=""; falla "no se pudo montar el DMG"; }
   APP="$VOLUMEN/AlfalfaCode.app"
   [ -d "$APP" ] || falla "el DMG no trae AlfalfaCode.app"
   codesign --verify --deep --strict "$APP" 2>/dev/null || falla "la firma de la app no es válida"
@@ -119,6 +131,9 @@ main() {
   if [ -z "$PRUEBA" ]; then
     spctl --assess --type execute "$APP" 2>/dev/null || falla "Apple no la tiene notarizada (spctl la rechaza)"
   fi
+  # `file` viene con macOS (lipo es de las herramientas de línea de órdenes).
+  file -b "$APP/Contents/MacOS/AlfalfaCode" 2>/dev/null | grep -q "$ARQ_MAC" \
+    || falla "este DMG es para otro procesador: este Mac necesita la versión para $ARQ_MAC"
   MOTOR="$APP/Contents/Resources/motor"
   [ -x "$MOTOR/alfalfa" ] && [ -x "$MOTOR/python/bin/python3" ] || falla "la app no trae el motor"
   if [ -n "$PRUEBA" ]; then
@@ -126,6 +141,7 @@ main() {
   else
     paso "Firma correcta (Developer ID del equipo $EQUIPO, notarizada)."
   fi
+  comprobar_cuybrowser
 
   # --- 4. Copiar el motor ---------------------------------------------------------------------
   mkdir -p "$PREFIJO/share" "$BIN"
@@ -136,8 +152,7 @@ main() {
   ditto "$APP/Contents/Helpers" "$NUEVA/Helpers"
   printf 'curl\n%s\n' "$VERSION" > "$NUEVA/instalacion"
   "$NUEVA/Resources/motor/alfalfa" --version >/dev/null 2>&1 || { rm -rf "$NUEVA"; falla "el motor copiado no arranca"; }
-  hdiutil detach -quiet "$VOLUMEN" || true
-  VOLUMEN=""
+  desmontar || true
 
   VIEJA=""
   if [ -e "$RAIZ" ]; then
@@ -169,16 +184,48 @@ main() {
   echo "  Actualizar:    alfalfa --actualizar"
   echo "  Desinstalar:   curl -fsSL https://alfalfacode.cuycoders.dev/instalar.sh | sh -s -- --desinstalar"
   echo "                 (tus sesiones y ajustes de ~/.alfalfa se quedan)"
-  echo "  La app de Mac: https://alfalfacode.cuycoders.dev  ·  brew install --cask 0sw2ld0/tap/alfalfacode"
+  if [ "$ARQ_MAC" = x86_64 ]; then
+    echo "  La app de Mac: el DMG AlfalfaCode-<versión>-intel.dmg de https://github.com/$REPO/releases/latest"
+  else
+    echo "  La app de Mac: https://alfalfacode.cuycoders.dev  ·  brew install --cask 0sw2ld0/tap/alfalfacode"
+  fi
 }
 
 comprobar_mac() {
-  [ "$(uname -s)" = "Darwin" ] || falla "AlfalfaCode sólo funciona en macOS."
-  # Bajo Rosetta, uname -m dice x86_64 aunque el Mac sea Apple Silicon.
-  [ "$(uname -m)" = "arm64" ] || [ "$(sysctl -n hw.optional.arm64 2>/dev/null || echo 0)" = "1" ] \
-    || falla "AlfalfaCode necesita un Mac con Apple Silicon (M1 o posterior)."
+  case "$(uname -s)" in
+    Darwin) ;;
+    # Este guion instala la app de Mac; en Linux el motor se instala con pipx.
+    Linux) falla "este guion instala la app de Mac. En Linux, instala el motor con pipx:
+  sudo apt install -y pipx git bubblewrap poppler-utils
+  pipx install \"git+https://github.com/$REPO@v<versión>\"
+Pasos, sandbox y claves: https://github.com/$REPO/blob/main/docs/USO.md#linux" ;;
+    *) falla "AlfalfaCode funciona en macOS y en Linux (en Windows, con WSL2)." ;;
+  esac
+  # Bajo Rosetta, uname -m dice x86_64 aunque el Mac sea Apple Silicon: allí va la de Apple Silicon.
+  if [ "$(uname -m)" = "arm64" ] || [ "$(sysctl -n hw.optional.arm64 2>/dev/null || echo 0)" = "1" ]; then
+    ARQ_MAC="arm64"; NOMBRE_FEED="version.json"
+  else
+    ARQ_MAC="x86_64"; NOMBRE_FEED="version-intel.json"
+  fi
   MAYOR="$(sw_vers -productVersion | cut -d. -f1)"
   [ "$MAYOR" -ge 14 ] 2>/dev/null || falla "AlfalfaCode necesita macOS 14 (Sonoma) o posterior."
+}
+
+comprobar_cuybrowser() {
+  PLIST="$APP/Contents/Info.plist"
+  # Los DMG anteriores a CuyBrowser no declaran la clave.
+  TIPO_CUY="$(plutil -type AlfalfaCuyBrowserVersion "$PLIST" 2>/dev/null)" || return 0
+  [ "$TIPO_CUY" = string ] || falla "AlfalfaCuyBrowserVersion no es un texto"
+  VERSION_CUY="$(plutil -extract AlfalfaCuyBrowserVersion raw -o - "$PLIST")"
+  printf '%s' "$VERSION_CUY" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' \
+    || falla "AlfalfaCuyBrowserVersion no es una versión válida"
+  CUY="$APP/Contents/Helpers/cuybrowser"
+  [ -f "$CUY" ] && [ -x "$CUY" ] && [ ! -L "$CUY" ] || falla "la app no trae CuyBrowser $VERSION_CUY"
+  CUY="$(CDPATH= cd -- "$APP/Contents/Helpers" && pwd)/cuybrowser"
+  codesign --verify --strict "$CUY" 2>/dev/null || falla "la firma de CuyBrowser no es válida"
+  SALIDA_CUY="$(cd "$TMP" && env -i HOME="$PWD" PATH=/usr/bin:/bin "$CUY" --version)" \
+    && [ "$SALIDA_CUY" = "$VERSION_CUY" ] || falla "el ejecutable no declara CuyBrowser $VERSION_CUY"
+  paso "CuyBrowser $VERSION_CUY incluido."
 }
 
 bajar() {   # bajar <url> <destino>
@@ -280,8 +327,22 @@ desinstalar() {
   fi
 }
 
+# Desconecta el DMG; si está ocupado, a la fuerza. Si ni así, lo avisa y lo deja anotado para que
+# limpiar() lo intente otra vez, en lugar de olvidarlo montado.
+desmontar() {
+  [ -n "${VOLUMEN:-}" ] || return 0
+  objetivo="${DISCO:-$VOLUMEN}"
+  if hdiutil detach -quiet "$objetivo" 2>/dev/null || hdiutil detach -quiet -force "$objetivo" 2>/dev/null; then
+    VOLUMEN=""
+    DISCO=""
+    return 0
+  fi
+  aviso "no se pudo desconectar el DMG; quítalo con: hdiutil detach -force $objetivo"
+  return 1
+}
+
 limpiar() {
-  if [ -n "${VOLUMEN:-}" ]; then hdiutil detach -quiet -force "$VOLUMEN" 2>/dev/null || true; VOLUMEN=""; fi
+  desmontar || VOLUMEN=""
   if [ -n "${TMP:-}" ]; then rm -rf "$TMP"; TMP=""; fi
   if [ -n "${NUEVA:-}" ]; then rm -rf "$NUEVA"; NUEVA=""; fi
   return 0
