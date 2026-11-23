@@ -198,10 +198,12 @@ p { margin: 0; text-wrap: pretty; }
 .seccion .bajada { margin-top: 18px; color: var(--texto-2); font-size: 19px; max-width: 60ch; }
 
 /* Tres maneras */
-.maneras { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--borde); }
-.manera { padding: 28px 28px 30px 0; border-right: 1px solid var(--borde); }
-.manera + .manera { padding-left: 28px; }
-.manera:last-child { border-right: 0; }
+.maneras { margin-top: 48px; display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--borde); }
+/* Dos por fila: la de la izquierda con borde a la derecha, la de la derecha con aire a la izquierda. */
+.manera { padding: 28px 28px 30px 0; border-right: 1px solid var(--borde); border-bottom: 1px solid var(--borde); }
+.manera:nth-child(2n) { padding-left: 28px; border-right: 0; }
+/* La última fila, sin borde abajo. */
+.manera:nth-child(2n + 1):nth-last-child(-n + 2), .manera:nth-child(2n + 1):nth-last-child(-n + 2) + .manera { border-bottom: 0; }
 .manera h3 { font-size: 24px; display: flex; align-items: center; gap: 10px; }
 .manera h3 svg { width: 22px; height: 22px; color: var(--alfalfa); }
 .manera p { margin-top: 12px; color: var(--texto-2); }
